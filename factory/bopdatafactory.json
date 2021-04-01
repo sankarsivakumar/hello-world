@@ -1,0 +1,9 @@
+{
+	"name": "bopdatafactory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0704e3be-4bfb-4a43-b316-c4f8eb458b36",
+		"tenantId": "71b28884-c8f8-4049-b11d-b577f8477294"
+	}
+}
