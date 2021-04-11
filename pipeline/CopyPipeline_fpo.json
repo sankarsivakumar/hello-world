@@ -1,0 +1,152 @@
+{
+	"name": "CopyPipeline_fpo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_fpo",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "bopcore.BroodstockSourceTb"
+					},
+					{
+						"name": "Destination",
+						"value": "bopcore.BroodstockSourceTb"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"tableOption": "autoCreate"
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "BroodstockSourceId",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "BroodstockSourceId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "BroodstockSourceNameShort",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "BroodstockSourceNameShort",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "BroodstockSourceNameLong",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "BroodstockSourceNameLong",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ActiveFlag",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "ActiveFlag",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CreateUserEmail",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CreateUserEmail",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CreateDate",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "CreateDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "LastUpdateUserEmail",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "LastUpdateUserEmail",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "LastUpdateDate",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "LastUpdateDate",
+									"type": "DateTime"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_fpo",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_fpo",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
