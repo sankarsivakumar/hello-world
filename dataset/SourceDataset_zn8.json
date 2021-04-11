@@ -1,0 +1,16 @@
+{
+	"name": "SourceDataset_zn8",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "bopcore",
+			"table": "BroodstockSourceTb"
+		}
+	}
+}
