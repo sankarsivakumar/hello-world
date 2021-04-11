@@ -1,0 +1,54 @@
+{
+	"name": "SourceDataset_fpo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BroodstockSourceId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BroodstockSourceNameShort",
+				"type": "varchar"
+			},
+			{
+				"name": "BroodstockSourceNameLong",
+				"type": "varchar"
+			},
+			{
+				"name": "ActiveFlag",
+				"type": "char"
+			},
+			{
+				"name": "CreateUserEmail",
+				"type": "varchar"
+			},
+			{
+				"name": "CreateDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LastUpdateUserEmail",
+				"type": "varchar"
+			},
+			{
+				"name": "LastUpdateDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "bopcore",
+			"table": "BroodstockSourceTb"
+		}
+	}
+}
