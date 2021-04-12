@@ -16,11 +16,11 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "bopcore.BroodstockSourceTb,bopcore.ContactOrganizationMapTb,bopcore.ContactRoleMapTb"
+						"value": "bopcore.ContactOrganizationMapTb,bopcore.ContactRoleMapTb"
 					},
 					{
 						"name": "Destination",
-						"value": "bopcore.BroodstockSourceTb,bopcore.ContactOrganizationMapTb,bopcore.ContactRoleMapTb"
+						"value": "bopcore.ContactOrganizationMapTb,bopcore.ContactRoleMapTb"
 					}
 				],
 				"typeProperties": {
