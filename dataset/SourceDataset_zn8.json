@@ -5,12 +5,13 @@
 			"referenceName": "AzureSqlDatabase1",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"*Tb": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
-		"typeProperties": {
-			"schema": "bopcore",
-			"table": "BroodstockSourceTb"
-		}
+		"schema": []
 	}
 }
