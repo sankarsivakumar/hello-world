@@ -2,7 +2,7 @@
 	"name": "DestinationDataset_ma0",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabase2",
+			"referenceName": "AzureSqlDatabase3",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
