@@ -204,11 +204,11 @@
 						"userProperties": [
 							{
 								"name": "Source",
-								"value": "bopcore.ContactOrganizationMapTb,bopcore.ContactRoleMapTb"
+								"value": "bopcore.ContactOrganizationMapTb"
 							},
 							{
 								"name": "Destination",
-								"value": "bopcore.ContactOrganizationMapTb,bopcore.ContactRoleMapTb"
+								"value": "bopcore.ContactOrganizationMapTb"
 							}
 						],
 						"typeProperties": {
