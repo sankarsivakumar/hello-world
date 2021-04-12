@@ -461,11 +461,11 @@
 						"userProperties": [
 							{
 								"name": "Source",
-								"value": "bopcore.BroodstockSourceTb"
+								"value": "bopcore.BroodstockSourceTb,bopcore.ContactOrganizationMapTb,bopcore.ContactRoleMapTb"
 							},
 							{
 								"name": "Destination",
-								"value": "bopcore.BroodstockSourceTb"
+								"value": "bopcore.BroodstockSourceTb,bopcore.ContactOrganizationMapTb,bopcore.ContactRoleMapTb"
 							}
 						],
 						"typeProperties": {
