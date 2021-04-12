@@ -1,0 +1,4075 @@
+{
+	"name": "CopyPipeline_ugi",
+	"properties": {
+		"description": "only structure",
+		"activities": [
+			{
+				"name": "ForEach_ugi",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_ugi",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "bopcore.@{item().source.table}"
+								},
+								{
+									"name": "Destination",
+									"value": "bopcore.@{item().destination.table}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"tableOption": {
+										"value": "@item().copySink.tableOption",
+										"type": "Expression"
+									}
+								},
+								"enableStaging": false,
+								"validateDataConsistency": false,
+								"translator": {
+									"value": "@item().copyActivity.translator",
+									"type": "Expression"
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_ugi",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_table": "@item().source.table"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_ugi",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_table": "@item().destination.table"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"table": "ChapterLessonMapTb"
+						},
+						"destination": {
+							"table": "ChapterLessonMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ChapterId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ChapterId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "LessonId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "LessonId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "LessonSequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "LessonSequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "ChapterTb"
+						},
+						"destination": {
+							"table": "ChapterTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ChapterId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ChapterId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ChapterName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ChapterName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ChapterSummaryDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "ChapterSummaryDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ChapterIntroductionDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "ChapterIntroductionDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ChapterDurationTimeDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ChapterDurationTimeDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "CurriculumTb"
+						},
+						"destination": {
+							"table": "CurriculumTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CurriculumId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "CurriculumId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "CurriculumName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CurriculumName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CurriculumSummaryDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CurriculumSummaryDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CurriculumIntroductionDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CurriculumIntroductionDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CurriculumDurationTimeDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CurriculumDurationTimeDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CurriculumSequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "CurriculumSequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "CurriculumUnitMapTb"
+						},
+						"destination": {
+							"table": "CurriculumUnitMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CurriculumId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "CurriculumId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "UnitId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitSequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "UnitSequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "FeaturedMapTb"
+						},
+						"destination": {
+							"table": "FeaturedMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "SourceTableName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceTableName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceColumnName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceColumnName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SourceId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "FeaturedGroupName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "FeaturedGroupName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FeaturedSequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "FeaturedSequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "GradeMapTb"
+						},
+						"destination": {
+							"table": "GradeMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "SourceTableName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceTableName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceColumnName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceColumnName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SourceId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "GradeId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "GradeId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "GradeSequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "GradeSequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "GradeTb"
+						},
+						"destination": {
+							"table": "GradeTb"
+						},
+						"copySink": {
+							"tableOption": null
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "GradeId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "GradeId",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "GradeShortDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "GradeShortDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "GradeLongDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "GradeLongDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "GradeNoListDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "GradeNoListDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "LessonContactMapTb"
+						},
+						"destination": {
+							"table": "LessonContactMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "LessonId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "LessonId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ContactId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ContactId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "RoleId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "RoleId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "IsFavoriteFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "IsFavoriteFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "IsCustomFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "IsCustomFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SubmissionDate",
+											"type": "Date",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "SubmissionDate",
+											"type": "Date"
+										}
+									},
+									{
+										"source": {
+											"name": "PublishDate",
+											"type": "Date",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "PublishDate",
+											"type": "Date"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceLessonId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SourceLessonId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "LessonFeaturedMapTb"
+						},
+						"destination": {
+							"table": "LessonFeaturedMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "LessonId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "LessonId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "LessonSequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "LessonSequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "LessonTb"
+						},
+						"destination": {
+							"table": "LessonTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "LessonId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "LessonId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "LessonName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LessonName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LessonSummaryDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "LessonSummaryDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LessonIntroductionDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "LessonIntroductionDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LessonDurationTimeDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LessonDurationTimeDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LessonObjectiveDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "LessonObjectiveDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LessonSettingDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LessonSettingDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LessonSuppliesDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "LessonSuppliesDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TeacherTipsDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "TeacherTipsDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PreparationDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "PreparationDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BackgroundDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "BackgroundDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "InstructionPlanDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "InstructionPlanDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SupportedByDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "SupportedByDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "OysterStationVisitTb"
+						},
+						"destination": {
+							"table": "OysterStationVisitTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "OysterStationVisitId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterStationVisitId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OysterStationId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterStationId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "VisitDate",
+											"type": "Date",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "VisitDate",
+											"type": "Date"
+										}
+									},
+									{
+										"source": {
+											"name": "VisitTime",
+											"type": "TimeSpan",
+											"physicalType": "time"
+										},
+										"sink": {
+											"name": "VisitTime",
+											"type": "TimeSpan"
+										}
+									},
+									{
+										"source": {
+											"name": "VisitReasonDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "VisitReasonDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "VisitStatusType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "VisitStatusType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "NumOfStudentsQty",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "NumOfStudentsQty",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "NumOfAdultsQty",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "NumOfAdultsQty",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "StaffContact1Id",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "StaffContact1Id",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "StaffContact2Id",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "StaffContact2Id",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "VisitNotes",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "VisitNotes",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "ProtocolMobileOrganismTb"
+						},
+						"destination": {
+							"table": "ProtocolMobileOrganismTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ProtocolMobileOrganismId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ProtocolMobileOrganismId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OysterStationVisitId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterStationVisitId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SpeciesId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SpeciesId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "MobileOrganismQty",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "MobileOrganismQty",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "MobileOrganismObservationNotes",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MobileOrganismObservationNotes",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "ProtocolOysterMeasurementTb"
+						},
+						"destination": {
+							"table": "ProtocolOysterMeasurementTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ProtocolOysterMeasurementId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ProtocolOysterMeasurementId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OysterStationVisitId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterStationVisitId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OysterSizeInMillimeters",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterSizeInMillimeters",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OysterIsAliveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "OysterIsAliveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "ProtocolOysterStationTb"
+						},
+						"destination": {
+							"table": "ProtocolOysterStationTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "OysterStationVisitId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterStationVisitId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "BiofoulingType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "BiofoulingType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OysterTotalCount",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterTotalCount",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OysterMeasuredCount",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterMeasuredCount",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OysterNotMeasuredCount",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterNotMeasuredCount",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OysterDataCollectionMethodName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "OysterDataCollectionMethodName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "ProtocolSessileOrganismTb"
+						},
+						"destination": {
+							"table": "ProtocolSessileOrganismTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ProtocolSessileOrganismId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ProtocolSessileOrganismId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OysterStationVisitId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterStationVisitId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SettlementTileNo",
+											"type": "Byte",
+											"physicalType": "tinyint"
+										},
+										"sink": {
+											"name": "SettlementTileNo",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "SettlementTileGridPointNo",
+											"type": "Byte",
+											"physicalType": "tinyint"
+										},
+										"sink": {
+											"name": "SettlementTileGridPointNo",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "SpeciesId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SpeciesId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SessileOrganismObservationNotes",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SessileOrganismObservationNotes",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "ProtocolSiteConditionTb"
+						},
+						"destination": {
+							"table": "ProtocolSiteConditionTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "OysterStationVisitId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterStationVisitId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "WeatherConditionCode",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WeatherConditionCode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AirTemperatureCelsius",
+											"type": "Byte",
+											"physicalType": "tinyint"
+										},
+										"sink": {
+											"name": "AirTemperatureCelsius",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "WindSpeedMphNo",
+											"type": "Byte",
+											"physicalType": "tinyint"
+										},
+										"sink": {
+											"name": "WindSpeedMphNo",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "WindDirectionCode",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WindDirectionCode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RainPast7DaysFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "RainPast7DaysFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RainPast3DaysFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "RainPast3DaysFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RainPast1DaysFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "RainPast1DaysFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ClosestHighTideTime",
+											"type": "TimeSpan",
+											"physicalType": "time"
+										},
+										"sink": {
+											"name": "ClosestHighTideTime",
+											"type": "TimeSpan"
+										}
+									},
+									{
+										"source": {
+											"name": "ClosestHighTideHeightInFeet",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
+										},
+										"sink": {
+											"name": "ClosestHighTideHeightInFeet",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ClosestLowTideTime",
+											"type": "TimeSpan",
+											"physicalType": "time"
+										},
+										"sink": {
+											"name": "ClosestLowTideTime",
+											"type": "TimeSpan"
+										}
+									},
+									{
+										"source": {
+											"name": "ClosestLowTideHeightInFeet",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
+										},
+										"sink": {
+											"name": "ClosestLowTideHeightInFeet",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "TidalCurrentType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "TidalCurrentType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterSurfaceMovementDirCode",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WaterSurfaceMovementDirCode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterSurfaceSpeedInSeconds",
+											"type": "Byte",
+											"physicalType": "tinyint"
+										},
+										"sink": {
+											"name": "WaterSurfaceSpeedInSeconds",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterColorDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WaterColorDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterOilSheenPresentFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "WaterOilSheenPresentFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterGarbagePresentFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "WaterGarbagePresentFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterGarbageActivityDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WaterGarbageActivityDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterfrontAnimalPresentFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "WaterfrontAnimalPresentFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterfrontAnimalActivityDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WaterfrontAnimalActivityDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterfrontHumanPresentFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "WaterfrontHumanPresentFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterfrontHumanActivityDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WaterfrontHumanActivityDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OutfallPipesSewerOverflowFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "OutfallPipesSewerOverflowFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OutfallPipesLocationDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "OutfallPipesLocationDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OutfallPipesFlowStatusFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "OutfallPipesFlowStatusFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OutfallPipesFlowStrengthDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "OutfallPipesFlowStrengthDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "ProtocolWaterConditionTb"
+						},
+						"destination": {
+							"table": "ProtocolWaterConditionTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "OysterStationVisitId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OysterStationVisitId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterSampleDepthInMeters",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
+										},
+										"sink": {
+											"name": "WaterSampleDepthInMeters",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterTemperatureTestMethodType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WaterTemperatureTestMethodType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterTemperatureResult1InCelsius",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 5
+										},
+										"sink": {
+											"name": "WaterTemperatureResult1InCelsius",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterTemperatureResult2InCelsius",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 5
+										},
+										"sink": {
+											"name": "WaterTemperatureResult2InCelsius",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterTemperatureResult3InCelsius",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 5
+										},
+										"sink": {
+											"name": "WaterTemperatureResult3InCelsius",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "WaterTemperatureUnitType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WaterTemperatureUnitType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DissolvedOxygenTestMethodType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "DissolvedOxygenTestMethodType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DissolvedOxygenResult1No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 5
+										},
+										"sink": {
+											"name": "DissolvedOxygenResult1No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "DissolvedOxygenResult2No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 5
+										},
+										"sink": {
+											"name": "DissolvedOxygenResult2No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "DissolvedOxygenResult3No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 5
+										},
+										"sink": {
+											"name": "DissolvedOxygenResult3No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "DissolvedOxygenUnitType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "DissolvedOxygenUnitType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SalinityTestMethodType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SalinityTestMethodType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SalinityResult1No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "SalinityResult1No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "SalinityResult2No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "SalinityResult2No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "SalinityResult3No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "SalinityResult3No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "SalinityUnitType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SalinityUnitType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PhTestMethodType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PhTestMethodType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PhResult1No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "PhResult1No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "PhResult2No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "PhResult2No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "PhResult3No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "PhResult3No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "PhUnitType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PhUnitType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AmmoniaTestMethodType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "AmmoniaTestMethodType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AmmoniaResult1No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "AmmoniaResult1No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "AmmoniaResult2No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "AmmoniaResult2No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "AmmoniaResult3No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "AmmoniaResult3No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "AmmoniaUnitType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "AmmoniaUnitType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "NitrateTestMethodType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "NitrateTestMethodType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "NitrateResult1No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "NitrateResult1No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "NitrateResult2No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "NitrateResult2No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "NitrateResult3No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "NitrateResult3No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "NitrateUnitType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "NitrateUnitType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PhosphateTestMethodType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PhosphateTestMethodType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PhosphateResult1No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "PhosphateResult1No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "PhosphateResult2No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "PhosphateResult2No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "PhosphateResult3No",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "PhosphateResult3No",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "PhosphateUnitType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PhosphateUnitType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ObservationNotes",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ObservationNotes",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "ResourceMapTb"
+						},
+						"destination": {
+							"table": "ResourceMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "SourceTableName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceTableName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceColumnName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceColumnName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SourceId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ResourceId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ResourceId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ResourceSequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ResourceSequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "ResourceTb"
+						},
+						"destination": {
+							"table": "ResourceTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ResourceId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ResourceId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ResourceName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ResourceName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ResourceSummaryDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "ResourceSummaryDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ResourceURL",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "ResourceURL",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ResourceType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ResourceType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ResourceMediaType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ResourceMediaType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ResourceNotes",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ResourceNotes",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ResourceAuxiliary",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ResourceAuxiliary",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "SubjectAreaMapTb"
+						},
+						"destination": {
+							"table": "SubjectAreaMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "SourceTableName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceTableName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceColumnName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceColumnName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SourceId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SubjectAreaId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SubjectAreaId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SubjectAreaSequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SubjectAreaSequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "TagMapTb"
+						},
+						"destination": {
+							"table": "TagMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "SourceTableName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceTableName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceColumnName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceColumnName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SourceId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "TagId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "TagId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "TagSequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "TagSequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "UnitChapterMapTb"
+						},
+						"destination": {
+							"table": "UnitChapterMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "UnitId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "UnitId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ChapterId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ChapterId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ChapterSequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ChapterSequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "UnitTb"
+						},
+						"destination": {
+							"table": "UnitTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "UnitId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "UnitId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UnitName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitSummaryDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "UnitSummaryDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitIntroductionDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "UnitIntroductionDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitDurationTimeDesc",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UnitDurationTimeDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"table": "VocabularyMapTb"
+						},
+						"destination": {
+							"table": "VocabularyMapTb"
+						},
+						"copySink": {
+							"tableOption": "autoCreate"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "SourceTableName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceTableName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceColumnName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SourceColumnName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SourceId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "VocabularyId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "VocabularyId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "VocabularySequenceNo",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "VocabularySequenceNo",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ActiveFlag",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "ActiveFlag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CreateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreateDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateUserEmail",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "LastUpdateUserEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdateDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "LastUpdateDate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}
